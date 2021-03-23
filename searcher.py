@@ -110,6 +110,8 @@ while True:
                 address = driver.find_element_by_id("ds-chip-property-address").text
                 print(address)
 
+                ratingsDriver.get("https://www.areavibes.com/search-results/")
+                time.sleep(3)
                 addressRatingsInput = ratingsDriver.find_element_by_xpath("/html/body/div[1]/div/div/div/header/form/input")
                 addressRatingsInput.send_keys(address)
                 addressRatingsInput.send_keys(Keys.ENTER)
