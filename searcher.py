@@ -13,10 +13,16 @@ ratingsDriver = webdriver.Chrome()
 driver.get("https://www.zillow.com/homes/for_sale/colombus-ohio_rb/")
 
 rentoMeterDriver.get("https://www.rentometer.com/")
+rentoMeterDriver.find_element_by_xpath("/html/body/div[3]/nav/div[2]/ul[1]/li[2]/a").click()
+time.sleep(2)
+rentoMeterDriver.find_element_by_xpath("/html/body/div[5]/div/div/div[1]/form/div[1]/input").send_keys("nardoarevalo@me.com")
+rentoMeterDriver.find_element_by_xpath("/html/body/div[5]/div/div/div[1]/form/div[3]/input").send_keys("CAMera14!")
+rentoMeterDriver.find_element_by_xpath("/html/body/div[5]/div/div/div[1]/form/div[5]/input").click()
+
 
 ratingsDriver.get("https://www.areavibes.com/search-results/")
 
-time.sleep(25)
+time.sleep(10)
 
 
 def close():
@@ -115,9 +121,11 @@ while True:
                 addressRatingsInput = ratingsDriver.find_element_by_xpath("/html/body/div[1]/div/div/div/header/form/input")
                 addressRatingsInput.send_keys(address)
                 addressRatingsInput.send_keys(Keys.ENTER)
+                time.sleep(2)
                 addressRatingsInput.send_keys(Keys.DOWN)
-                time.sleep(1)
+                time.sleep(2)
                 addressRatingsInput.send_keys(Keys.ENTER)
+                time.sleep(2)
                 rating = int(ratingsDriver.find_element_by_xpath("/html/body/div[3]/div[3]/div/a[1]/i[2]").text)
                 ratingurl =ratingsDriver.current_url
 
