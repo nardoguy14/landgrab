@@ -13,3 +13,13 @@
 https://chromedriver.chromium.org/downloads
 Download the appropriate one for your version of chrome.
 3. mysql database to store results
+
+
+**Downside**
+Needs a login into rentometer. You can create a free account that lasts for 7 days.
+
+I aint paying for an account.
+
+Also when the application starts up you have to login to rentometer from the browser itself.
+
+I'm too lazy to make the bot login at this point.
