@@ -1,5 +1,6 @@
 from selenium import webdriver
 import time
+from selenium.webdriver.common.keys import Keys
 
 class Zillow:
     driver = webdriver.Chrome()
@@ -40,7 +41,13 @@ class Zillow:
         return numberOfBeds, numberOfBaths
 
 
-    def monthlyCostCalculate(self):
+    def monthlyCostCalculate(self, downPaymentPercent):
+        self.driver.find_element_by_xpath("/html/body/div[1]/div[6]/div/div[1]/div/div/div[2]/div[4]/div[6]/ul/li[9]/div/div[1]/div/div[2]/div[1]/div/div").click()
+        self.driver.find_element_by_id("down-payment-percent").send_keys("lalala")
+        while self.driver.find_element_by_id("down-payment-percent").get_attribute('value') != '':
+            self.driver.find_element_by_id("down-payment-percent").clear()
+        self.driver.find_element_by_id("down-payment-percent").send_keys(downPaymentPercent)
+        self.driver.find_element_by_id("interest-rate").click()
         monthlyCost = self.driver.find_element_by_class_name("sc-fzokOt").text
         monthlyCost = monthlyCost.split('\n')[1].replace("$", "").replace(",", "")
         return monthlyCost

@@ -8,6 +8,7 @@ from utils import financial_stats
 
 amountInvestedForRennovation = 35000.0
 downpaymentPercentage = 0.25
+downpaymentPercentageStr = "25"
 propertyManagementPercentageFeeOfRent = 0.07
 #needs to go over this or match it to consider it
 cashFlowCutOff = 400.0
@@ -44,7 +45,7 @@ while True:
 
                 address = zillow.addressCalculate()
                 numberOfBeds, numberOfBaths = zillow.bedAndBathCalculate()
-                monthlyCost = zillow.monthlyCostCalculate()
+                monthlyCost = zillow.monthlyCostCalculate(downpaymentPercentageStr)
                 listing_cost = zillow.listingCostCalculate()
                 listingurl = zillow.getListingUrl()
 
