@@ -1,11 +1,10 @@
 import time
-import json
-from ListingRepository import ListingRepository
-from RentoMeter import RentoMeter
-from Zillow import Zillow
-from NeighborhoodRatings import NeigborhoodRatings
+from repositories.ListingRepository import ListingRepository
+from requestors.RentoMeter import RentoMeter
+from requestors.Zillow import Zillow
+from requestors.NeighborhoodRatings import NeigborhoodRatings
 import traceback
-import utils
+from utils import financial_stats
 
 rentoMeter = RentoMeter()
 zillow = Zillow()
@@ -54,12 +53,12 @@ while True:
                 rentometer_rent_avg = rentoMeter.rentoMeterAvgCalculate()
                 rentometerurl = rentoMeter.getRentoMeterUrl()
 
-                wesCalc = utils.percentageReturnCalculate(rentometer_rent_avg, listing_cost,
-                                                          amountInvestedForRennovation)
-                cashOnCashReturn = utils.cashOnCashCalculate(rentometer_rent_avg, monthlyCost, listing_cost,
-                                                             downpaymentPercentage, amountInvestedForRennovation,
-                                                             propertyManagementPercentageFeeOfRent)
-                cashFlow = utils.cashFlowCalculate(rentometer_rent_avg, monthlyCost)
+                wesCalc = financial_stats.percentageReturnCalculate(rentometer_rent_avg, listing_cost,
+                                                                    amountInvestedForRennovation)
+                cashOnCashReturn = financial_stats.cashOnCashCalculate(rentometer_rent_avg, monthlyCost, listing_cost,
+                                                                       downpaymentPercentage, amountInvestedForRennovation,
+                                                                       propertyManagementPercentageFeeOfRent)
+                cashFlow = financial_stats.cashFlowCalculate(rentometer_rent_avg, monthlyCost)
 
                 result = {
                     "info": {

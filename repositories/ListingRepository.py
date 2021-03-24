@@ -1,4 +1,4 @@
-from BaseRepository import BaseRepository
+from repositories.BaseRepository import BaseRepository
 
 
 class ListingRepository:
