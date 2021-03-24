@@ -6,12 +6,19 @@ from requestors.NeighborhoodRatings import NeigborhoodRatings
 import traceback
 from utils import financial_stats
 
+amountInvestedForRennovation = 35000.0
+downpaymentPercentage = 0.25
+propertyManagementPercentageFeeOfRent = 0.07
+#needs to go over this or match it to consider it
+cashFlowCutOff = 400.0
+city = "colombus-ohio"
+
 rentoMeter = RentoMeter()
 zillow = Zillow()
 neighborHoodRatings = NeigborhoodRatings()
 listingRepo = ListingRepository()
 
-zillow.loadZillow()
+zillow.loadZillow(city)
 rentoMeter.loginToRentoMeter()
 neighborHoodRatings.loadRatingsSite()
 
@@ -23,10 +30,6 @@ resultObjs = []
 profitsAbove = []
 page = 1
 listingsVisited = 0
-
-amountInvestedForRennovation = 35000.0
-downpaymentPercentage = 0.25
-propertyManagementPercentageFeeOfRent = 0.07
 
 #yolo
 while True:
@@ -86,7 +89,7 @@ while True:
                     }
                 }
 
-                if cashFlow >= 400.0:
+                if cashFlow >= cashFlowCutOff:
                     profitsAbove.append(result)
                     if len(listingRepo.get_listing(address)) == 0:
                         listingRepo.create_listing(result)

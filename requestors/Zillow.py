@@ -7,8 +7,8 @@ class Zillow:
     def getListingUrl(self):
         return self.driver.current_url
 
-    def loadZillow(self):
-        self.driver.get("https://www.zillow.com/homes/for_sale/colombus-ohio_rb/")
+    def loadZillow(self, city):
+        self.driver.get(f"https://www.zillow.com/homes/for_sale/{city}_rb/")
 
 
     def close(self):
