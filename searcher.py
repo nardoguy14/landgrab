@@ -4,7 +4,8 @@ from ListingRepository import ListingRepository
 from RentoMeter import RentoMeter
 from Zillow import Zillow
 from NeighborhoodRatings import NeigborhoodRatings
-
+import traceback
+import utils
 
 rentoMeter = RentoMeter()
 zillow = Zillow()
@@ -24,20 +25,9 @@ profitsAbove = []
 page = 1
 listingsVisited = 0
 
-def cashOnCashCalculate(rentometer_rent_avg, monthly_cost, listing_price):
-    cashOnCashReturn = ((float(rentometer_rent_avg) - float(monthly_cost)) * 11) / (listing_price * 0.25 + 35000.0) * 100.0
-    cashOnCashReturn = round(cashOnCashReturn, 2)
-    cashOnCashReturn = str(cashOnCashReturn) + "%"
-    return cashOnCashReturn
-
-def percentageReturnCalculate(rentoMeterAvg, listing_cost):
-    wesCalc = (float(rentoMeterAvg) * 11) / (listing_cost + 35000.0) * 100.0
-    wesCalc = round(wesCalc, 2)
-    wesCalc = str(wesCalc) + "%"
-    return wesCalc
-
-def cashFlowCalculate(rentometer_rent_avg, monthlyCost):
-    return float(rentometer_rent_avg) - float(monthlyCost)
+amountInvestedForRennovation = 35000.0
+downpaymentPercentage = 0.25
+propertyManagementPercentageFeeOfRent = 0.07
 
 #yolo
 while True:
@@ -58,15 +48,18 @@ while True:
 
                 neighborHoodRatings.searchRating(address)
                 rating = neighborHoodRatings.ratingCalculate()
-                ratingurl = neighborHoodRatings.getRatingUrl
+                ratingurl = neighborHoodRatings.getRatingUrl()
 
                 rentoMeter.searchRentoMeter(address, numberOfBeds, numberOfBaths)
                 rentometer_rent_avg = rentoMeter.rentoMeterAvgCalculate()
                 rentometerurl = rentoMeter.getRentoMeterUrl()
 
-                wesCalc = percentageReturnCalculate(rentometer_rent_avg, listing_cost)
-                cashOnCashReturn = cashOnCashCalculate(rentometer_rent_avg, monthlyCost, listing_cost)
-                cashFlow = cashFlowCalculate(rentometer_rent_avg, monthlyCost)
+                wesCalc = utils.percentageReturnCalculate(rentometer_rent_avg, listing_cost,
+                                                          amountInvestedForRennovation)
+                cashOnCashReturn = utils.cashOnCashCalculate(rentometer_rent_avg, monthlyCost, listing_cost,
+                                                             downpaymentPercentage, amountInvestedForRennovation,
+                                                             propertyManagementPercentageFeeOfRent)
+                cashFlow = utils.cashFlowCalculate(rentometer_rent_avg, monthlyCost)
 
                 result = {
                     "info": {
@@ -94,19 +87,19 @@ while True:
                     }
                 }
 
-                if cashFlow >= 500.0:
+                if cashFlow >= 400.0:
                     profitsAbove.append(result)
                     if len(listingRepo.get_listing(address)) == 0:
                         listingRepo.create_listing(result)
 
-                print(json.dumps(profitsAbove, indent=4, sort_keys=True))
                 listingsVisited += 1
-                print("results searched: " + str(len(resultObjs)) + f" % that arent worthless: {len(profitsAbove)/listingsVisited}")
+                print("results searched: " + str(listingsVisited) +
+                      f" % that arent worthless: {len(profitsAbove)/listingsVisited} page: {page}")
                 zillow.close()
             except Exception as e:
                 print(e)
+                traceback.print_exc()
                 zillow.close()
-                print("error for item")
 
         zillow.getNextSetOfListings()
         page += 1
