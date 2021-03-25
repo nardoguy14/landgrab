@@ -42,15 +42,13 @@ class Zillow:
 
 
     def monthlyCostCalculate(self, downPaymentPercent):
-        for link in self.driver.find_elements_by_class_name("sc-fznXWL"):
-            link.click()
-        time.sleep(2)
+        self.driver.find_elements_by_xpath("//*[contains(text(), 'Principal')]")[0].find_element_by_xpath('..').click()
         self.driver.find_element_by_id("down-payment-percent").send_keys("lalala")
         while self.driver.find_element_by_id("down-payment-percent").get_attribute('value') != '':
             self.driver.find_element_by_id("down-payment-percent").clear()
         self.driver.find_element_by_id("down-payment-percent").send_keys(downPaymentPercent)
         self.driver.find_element_by_id("interest-rate").click()
-        monthlyCost = self.driver.find_element_by_class_name("sc-fznMnq").text
+        monthlyCost = self.driver.find_elements_by_xpath("//*[contains(text(), 'Estimated')]")[0].find_element_by_xpath('..').text
         monthlyCost = monthlyCost.split('\n')[1].replace("$", "").replace(",", "")
         return monthlyCost
 
