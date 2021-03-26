@@ -5,6 +5,9 @@ from selenium.webdriver.common.keys import Keys
 class NeigborhoodRatings:
     ratingsDriver = webdriver.Chrome()
 
+    def closeWindow(self):
+        self.ratingsDriver.close()
+
     def getRatingUrl(self):
         return self.ratingsDriver.current_url
 

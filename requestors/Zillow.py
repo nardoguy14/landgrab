@@ -5,12 +5,18 @@ from selenium.webdriver.common.keys import Keys
 class Zillow:
     driver = webdriver.Chrome()
 
+    def closeWindow(self):
+        self.driver.close()
+
     def getListingUrl(self):
         return self.driver.current_url
 
     def loadZillow(self, city):
         self.driver.get(f"https://www.zillow.com/homes/for_sale/{city}_rb/")
 
+    def getAmountOfPages(self):
+        pages = int(self.driver.find_element_by_class_name("PaginationReadoutItem-c11n-8-27-0__sc-18an4gi-0").text.split()[3])
+        return pages
 
     def close(self):
         try:
@@ -48,7 +54,7 @@ class Zillow:
             self.driver.find_element_by_id("down-payment-percent").clear()
         self.driver.find_element_by_id("down-payment-percent").send_keys(downPaymentPercent)
         self.driver.find_element_by_id("interest-rate").click()
-        monthlyCost = self.driver.find_elements_by_xpath("//*[contains(text(), 'Estimated')]")[0].find_element_by_xpath('..').text
+        monthlyCost = self.driver.find_elements_by_xpath("//*[contains(text(), 'Estimated monthly')]")[0].find_element_by_xpath('..').text
         monthlyCost = monthlyCost.split('\n')[1].replace("$", "").replace(",", "")
         return monthlyCost
 

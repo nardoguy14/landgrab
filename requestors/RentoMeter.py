@@ -5,6 +5,9 @@ from selenium.webdriver.support.ui import Select
 class RentoMeter:
     rentoMeterDriver = webdriver.Chrome()
 
+    def closeWindow(self):
+        self.rentoMeterDriver.close()
+
     def getRentoMeterUrl(self):
         return self.rentoMeterDriver.current_url
 
